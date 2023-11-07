@@ -1,36 +1,56 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
-// https://github.com/microsoft/vscode-dev-containers/tree/v0.234.0/containers/docker-existing-dockerfile
+// https://github.com/microsoft/vscode-dev-containers/blob/main/.devcontainer/devcontainer.json
 {
 	"name": "Existing Dockerfile",
-
 	// Sets the run context to one level up instead of the .devcontainer folder.
-	"context": "..",
-
-	// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
-	"dockerFile": "../Dockerfile",
-
-	// Set *default* container specific settings.json values on container create.
-	"settings": {},
-
-	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": [
-		"mhutchie.git-graph",
-		"esbenp.prettier-vscode",
-		"ms-python.python",
-		"ms-python.vscode-pylance"
-	  ]
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-
+	"build": {
+		"dockerfile": "../Dockerfile"
+	},
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"python.formatting.provider": "none",
+				"[python]": {
+					"diffEditor.ignoreTrimWhitespace": false,
+					"editor.wordBasedSuggestions": false,
+					"editor.defaultFormatter": "ms-python.black-formatter",
+					"editor.codeActionsOnSave": {
+						"source.organizeImports": true
+					},
+					"black-formatter.args": [
+						"--line-length=119"
+					],
+					"isort.args": [
+						"--profile",
+						"black"
+					],
+					"flake8.args": [
+						"--max-line-length=119",
+						"--ignore=E203, W503"
+					]
+				},
+				"editor.formatOnSave": true
+			},
+			"extensions": [
+				"esbenp.prettier-vscode",
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"ms-python.flake8",
+				"ms-python.black-formatter",
+				"ms-python.isort"
+			]
+		},
+		"forwardPorts": [
+			8000,
+			3000
+		]
+	}
 	// Uncomment the next line to run commands after the container is created - for example installing curl.
 	// "postCreateCommand": "apt-get update && apt-get install -y curl",
-
 	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
 	// "runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" ],
-
 	// Uncomment to use the Docker CLI from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker.
 	// "mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],
-
 	// Uncomment to connect as a non-root user if you've added one. See https://aka.ms/vscode-remote/containers/non-root.
 	// "remoteUser": "vscode"
 }
